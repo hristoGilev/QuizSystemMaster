@@ -8,11 +8,11 @@
     public class QuestionInputModel
     {
         [Required]
-        [Range(1, 50)]
+        [StringLength(20, MinimumLength = 5)]
         public string Title { get; set; }
 
         [Required]
-        [Range(1, 300)]
+        [StringLength(200 , MinimumLength =5)]
         public string Description { get; set; }
     }
 }

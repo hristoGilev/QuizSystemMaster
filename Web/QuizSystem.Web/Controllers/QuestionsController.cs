@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using QuizSystem.Data.Models;
@@ -22,12 +22,14 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(QuestionInputModel model)
         {
