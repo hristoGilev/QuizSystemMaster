@@ -39,4 +39,8 @@
     <ProjectReference Include="..\QuizSystem.Web.Infrastructure\QuizSystem.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\QuizSystem.Web.ViewModels\QuizSystem.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\NewFolder\" />
+  </ItemGroup>
 </Project>
