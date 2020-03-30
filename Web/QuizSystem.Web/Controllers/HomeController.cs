@@ -5,12 +5,23 @@
     using QuizSystem.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels.Home;
+    using QuizSystem.Data.Models;
 
     public class HomeController : BaseController
     {
+        private readonly IExamsService examServise;
+
+        public HomeController(IExamsService examServise)
+        {
+            this.examServise = examServise;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var model = new IndexViewModel() {Exams = this.examServise.GetAll<ExamIndexViewModel>() };
+            return this.View(model);
         }
 
         public IActionResult Privacy()

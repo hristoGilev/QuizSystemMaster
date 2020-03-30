@@ -1,0 +1,13 @@
+﻿@model QuizSystem.Web.ViewModels.Exams.ExamViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+<h1 class="display-3">@Model.Name</h1>
+<div class="alert alert-info">
+    @Model.Description
+</div>
+@foreach (var item in Model.Questions)
+{
+    <h4 class="media-heading"><a asp-controller="Questiuons" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+}

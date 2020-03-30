@@ -1,10 +1,24 @@
 ﻿@model QuizSystem.Web.ViewModels.Questions.QuestionsViewOutputModel
+
 @{
     this.ViewData["Title"] = $"Question {Model.Title} ";
 }
-<h1>@this.ViewData["Title"]</h1>
+<h2>@this.ViewData["Title"]</h2>
 
 <div>
-    <h3> @Model.Description</h3>  @Model.Description
-
+    <h4> @Model.Description @Model.Id</h4>  
 </div>
+<form method="post" asp-controller="Answers" asp-action="Create"  id="6">
+   
+    <div>
+
+        <label for="Answer">Answer</label>
+        <textarea  class="form-control" name="answer"></textarea>
+       
+    </div>
+    <hr />
+    <input type="submit" class="btn btn-primary" />
+
+
+
+</form>

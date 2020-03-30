@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -39,15 +40,13 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var questionId = this.questionsService.CreateAsync(model.Title, model.Description, user.Id);
+            var questionId = await this.questionsService.CreateAsync(model.Title, model.Description, user.Id);
 
-            return this.View();
+            return this.RedirectToAction("ById", new {id= questionId });
         }
-
 
         public IActionResult ById(int id)
         {
-
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);
             if (model == null)
             {
@@ -56,7 +55,5 @@
 
             return this.View(model);
         }
-
-
     }
 }

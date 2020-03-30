@@ -1,9 +1,27 @@
 ﻿@using QuizSystem.Common
+@model QuizSystem.Web.ViewModels.Home.IndexViewModel
 @{
-    this.ViewData["Title"] = "Home Page";
+    this.ViewData["Title"] = $"Welcome to {GlobalConstants.SystemName}";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-3">@ViewData["Title"]</h1>
+</div>
+<div class="row">
+    @foreach (var exam in Model.Exams)
+    {
+
+        <div class="col-md-4 media">
+         
+            <div class="media-body">
+                <h5 class="mt-0">
+                    <a asp-action="Exams" asp-controller="ById"  asp-route="@exam.Id">
+                        @exam.Name
+                    </a>
+                </h5>
+                @exam.Description
+            </div>
+        </div>
+    }
+
 </div>

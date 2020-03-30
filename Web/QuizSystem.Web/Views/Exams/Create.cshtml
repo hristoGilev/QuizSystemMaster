@@ -1,0 +1,26 @@
+﻿@model QuizSystem.Web.ViewModels.Exams.ExamInputModel
+@{
+    this.ViewData["Title"] = "Create Exam";
+}
+<h1>@this.ViewData["Title"]</h1>
+<form method="post" asp-action="Create">
+    <div>
+
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+    </div>
+
+
+    <div>
+
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div>
+    <hr />
+    <input type="submit" class="btn btn-primary" />
+
+</form>

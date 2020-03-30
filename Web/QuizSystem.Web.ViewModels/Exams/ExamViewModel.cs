@@ -1,15 +1,17 @@
-﻿namespace QuizSystem.Data.Models
+﻿namespace QuizSystem.Web.ViewModels.Exams
 {
+    using System;
     using System.Collections.Generic;
+    using System.Text;
 
-    using QuizSystem.Data.Common.Models;
+    using QuizSystem.Data.Models;
+    using QuizSystem.Services.Mapping;
 
-    public class Exam : BaseDeletableModel<int>
+    public class ExamViewModel : IMapFrom<Exam>
     {
-        public Exam()
+        public ExamViewModel()
         {
             this.Questions = new HashSet<Question>();
-            this.ExamUser = new HashSet<ExamUser>();
         }
 
         public string Name { get; set; }
@@ -18,6 +20,6 @@
 
         public virtual ICollection<Question> Questions { get; set; }
 
-        public virtual ICollection<ExamUser> ExamUser { get; set; }
+        public string Content { get; set; }
     }
 }
