@@ -5,16 +5,26 @@
 }
 <h2>@this.ViewData["Title"]</h2>
 
+@{
+    <hr />
+    var parms = new Dictionary<string, string>
+{
+                { "id", Model.Id.ToString() },
+
+            };
+}
+
 <div>
-    <h4> @Model.Description @Model.Id</h4>  
+    <h4> @Model.Description </h4>
 </div>
-<form method="post" asp-controller="Answers" asp-action="Create"  id="6">
-   
+<form method="post" asp-controller="Answers" asp-action="Create" asp-all-route-data="parms">
+
     <div>
 
-        <label for="Answer">Answer</label>
-        <textarea  class="form-control" name="answer"></textarea>
-       
+        <label asp-for="Answer"></label>
+        <input asp-for="Answer" class="form-control" />
+        <span asp-validation-for="Answer" class="text-danger"></span>
+
     </div>
     <hr />
     <input type="submit" class="btn btn-primary" />

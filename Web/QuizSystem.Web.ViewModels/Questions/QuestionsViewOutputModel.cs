@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using QuizSystem.Data.Models;
@@ -16,5 +17,11 @@
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        [Required]
+        public string Answer { get; set; }
+
+        public string ExamId { get; set; }
+
     }
 }

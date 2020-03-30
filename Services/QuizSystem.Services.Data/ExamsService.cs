@@ -27,13 +27,16 @@
         {
             var exam = new Exam() { Name = name, Description = descrption };
             var t = this.repositoryQuetion.All().ToList().Count;
+
+            await this.repositoryExams.AddAsync(exam);
+            await this.repositoryExams.SaveChangesAsync();
             for (int i = 0; i < 2; i++)
             {
                 var q = this.repositoryQuetion.All().ElementAt(this.RandomNuber(t));
+                q.ExamId = exam.Id.ToString();
                 exam.Questions.Add(q);
             }
 
-            await this.repositoryExams.AddAsync(exam);
             await this.repositoryExams.SaveChangesAsync();
             return exam.Id;
         }
@@ -62,7 +65,7 @@
         private int RandomNuber(int t)
         {
             Random randam = new Random();
-            return randam.Next(0, t);
+            return randam.Next(0, t - 1);
         }
     }
 }
