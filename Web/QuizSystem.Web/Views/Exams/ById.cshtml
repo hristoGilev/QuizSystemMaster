@@ -9,5 +9,17 @@
 </div>
 @foreach (var item in Model.Questions)
 {
-    <h4 class="media-heading"><a asp-controller="Questiuons" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+    if (item.Answers.Any(x => x.User.UserName != User.Identity.Name))
+    {
+        <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+    }
 }
+@{
+    <hr />
+    var parms = new Dictionary<string, string>
+{
+                { "id", Model.Id.ToString() },
+              
+            };
+}
+<h4 class="media-heading"><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>

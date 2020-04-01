@@ -45,6 +45,7 @@
             return this.RedirectToAction("ById", new {id= questionId });
         }
 
+        [Authorize]
         public IActionResult ById(int id)
         {
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);

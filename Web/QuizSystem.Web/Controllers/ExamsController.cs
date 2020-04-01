@@ -34,6 +34,7 @@
           return this.RedirectToAction(nameof(this.ById), new { id = examId });
         }
 
+        [Authorize]
         public IActionResult ById(int id)
         {
             var model = this.examsService.GetById<ExamViewModel>(id);

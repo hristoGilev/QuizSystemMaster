@@ -7,21 +7,33 @@
 <div class="text-center">
     <h1 class="display-3">@ViewData["Title"]</h1>
 </div>
-<div class="row">
-    @foreach (var exam in Model.Exams)
-    {
 
-        <div class="col-md-4 media">
-         
-            <div class="media-body">
-                <h5 class="mt-0">
-                    <a asp-action="Exams" asp-controller="ById"  asp-route="@exam.Id">
-                        @exam.Name
-                    </a>
-                </h5>
-                @exam.Description
+@if (User.Identity.Name != null)
+{
+    <div class="row">
+        @foreach (var exam in Model.Exams)
+        {
+
+            <div class="col-md-4 media">
+
+                <div class="media-body">
+                    <h5 class="mt-0">
+                        <a asp-action="ById" asp-controller="EXams" asp-route-id="@exam.Id">
+                            @exam.Name
+                        </a>
+                    </h5>
+                    @exam.Description
+                </div>
             </div>
-        </div>
-    }
+        }
 
-</div>
+    </div>
+}
+else
+{
+
+    <div class="text-center">
+        <h3 class="display-3">To use the system, log to your account</h3>
+    </div>
+
+}

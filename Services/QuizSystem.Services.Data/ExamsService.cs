@@ -30,9 +30,9 @@
 
             await this.repositoryExams.AddAsync(exam);
             await this.repositoryExams.SaveChangesAsync();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
-                var q = this.repositoryQuetion.All().ElementAt(this.RandomNuber(t));
+                var q = this.repositoryQuetion.All().ToList().ElementAt(this.RandomNuber(t));
                 q.ExamId = exam.Id.ToString();
                 exam.Questions.Add(q);
             }

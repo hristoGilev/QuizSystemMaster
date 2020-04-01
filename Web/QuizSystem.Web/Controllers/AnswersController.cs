@@ -13,10 +13,10 @@
 
     public class AnswersController : Controller
     {
-        private readonly IAnswersService answersService;
+        private readonly IAnswersSerrvice answersService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public AnswersController(IAnswersService answersService, UserManager<ApplicationUser> userManager)
+        public AnswersController(IAnswersSerrvice answersService, UserManager<ApplicationUser> userManager)
         {
             this.answersService = answersService;
             this.userManager = userManager;
@@ -24,12 +24,12 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateAsync(string id, string answer)
+        public async Task<IActionResult> CreateAsync(string id,string examId, string answer)
         {
             var user = await this.userManager.GetUserAsync(this.User);
             await this.answersService.CreateAsync(id, answer, user.Id);
 
-            return this.Ok();
+            return this.RedirectToAction("ById", "Exam", new {id=examId });
 
         }
     }

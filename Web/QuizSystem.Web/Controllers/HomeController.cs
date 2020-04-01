@@ -2,12 +2,11 @@
 {
     using System.Diagnostics;
 
-    using QuizSystem.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
-    using QuizSystem.Services.Data;
-    using QuizSystem.Web.ViewModels.Home;
     using QuizSystem.Data.Models;
+    using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels;
+    using QuizSystem.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
@@ -20,7 +19,7 @@
 
         public IActionResult Index()
         {
-            var model = new IndexViewModel() {Exams = this.examServise.GetAll<ExamIndexViewModel>() };
+            var model = new IndexViewModel() { Exams = this.examServise.GetAll<ExamIndexViewModel>() };
             return this.View(model);
         }
 
