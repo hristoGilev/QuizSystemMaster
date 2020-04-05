@@ -1,8 +1,7 @@
 ﻿namespace QuizSystem.Data.Models
 {
-    using System.Collections.Generic;
-
     using QuizSystem.Data.Common.Models;
+    using System.Collections.Generic;
 
     public class Exam : BaseDeletableModel<int>
     {

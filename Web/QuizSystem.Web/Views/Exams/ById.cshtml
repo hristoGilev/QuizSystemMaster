@@ -9,7 +9,7 @@
 </div>
 @foreach (var item in Model.Questions)
 {
-    if (item.Answers.Any(x => x.User.UserName != User.Identity.Name))
+    //if (item.Answers.Any(x => x.User.UserName != User.Identity.Name))
     {
         <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
     }

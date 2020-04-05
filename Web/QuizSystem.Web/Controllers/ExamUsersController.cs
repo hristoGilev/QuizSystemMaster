@@ -2,20 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizSystem.Services.Data;
 using QuizSystem.Web.ViewModels.ExamUses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuizSystem.Web.Controllers
 {
     public class ExamUsersController : Controller
     {
         private readonly IUsersService usersService;
+        private readonly IExamUsersService examUsersService;
 
-        public ExamUsersController(IUsersService usersService)
+        public ExamUsersController(IUsersService usersService, IExamUsersService examUsersService)
         {
             this.usersService = usersService;
+            this.examUsersService = examUsersService;
         }
 
         [Authorize]
@@ -27,14 +25,13 @@ namespace QuizSystem.Web.Controllers
 
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //public IActionResult AddUsersToExam(int id)
-        //{
+        [Authorize]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> AddUsersToExamAsync(string[] username, string idexam)
+        {
+           await this.examUsersService.AddUserToExamAsync(int.Parse(idexam), username);
 
-        //    return this.View(id);
-
-        //}
-
+           return this.RedirectToAction("Index", "Home");
+        }
     }
 }

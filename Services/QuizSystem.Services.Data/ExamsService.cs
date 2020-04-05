@@ -37,6 +37,7 @@
                 exam.Questions.Add(q);
             }
 
+            this.repositoryExams.Update(exam);
             await this.repositoryExams.SaveChangesAsync();
             return exam.Id;
         }
@@ -46,9 +47,7 @@
             var exam = this.repositoryExams.All().Where(n => n.Id == id).To<T>().FirstOrDefault();
 
             return exam;
-
         }
-
 
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
@@ -65,7 +64,7 @@
         private int RandomNuber(int t)
         {
             Random randam = new Random();
-            return randam.Next(0, t - 1);
+            return randam.Next(0, t);
         }
     }
 }

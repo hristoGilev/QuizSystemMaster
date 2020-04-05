@@ -3,8 +3,24 @@
     this.ViewData["Title"] = "Add user to exam";
 }
 <h3>@this.ViewData["Title"]</h3>
-@foreach (var item in Model.examUsers)
+@{ var parm = new Dictionary<string, string>
 {
-    <h4 class="media-heading">@item.UserName</h4>
-        }
-<h3>@Model.ExamId</h3>
+                { "idexam", Model.ExamId.ToString() },
+              
+            };
+   
+}
+
+            
+<form method="post"  asp-all-route-data="parm">
+
+    @foreach (var item in Model.examUsers)
+    {
+        <div class="form-check">
+
+         <input type="checkbox" name="username" value="@item.UserName"/><label><span style="margin-left:3px">@item.UserName</span></label>
+        </div>
+
+    }
+    <input type="submit" class="btn btn-primary" />
+</form>

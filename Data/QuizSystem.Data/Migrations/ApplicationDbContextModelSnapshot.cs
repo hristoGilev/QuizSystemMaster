@@ -323,11 +323,23 @@ namespace QuizSystem.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ExamId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ExamId1")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -335,6 +347,8 @@ namespace QuizSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExamId1");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 

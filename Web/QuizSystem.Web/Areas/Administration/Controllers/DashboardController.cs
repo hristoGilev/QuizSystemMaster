@@ -4,15 +4,20 @@
     using QuizSystem.Web.ViewModels.Administration.Dashboard;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
 
     public class DashboardController : AdministrationController
     {
         private readonly ISettingsService settingsService;
 
-        public DashboardController(ISettingsService settingsService)
+        public DashboardController(ISettingsService settingsService, RoleManager<IdentityRole> roleManager)
+            : base(roleManager)
         {
             this.settingsService = settingsService;
+            this.RoleManager = roleManager;
         }
+
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         public IActionResult Index()
         {
