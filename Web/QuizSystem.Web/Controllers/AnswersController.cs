@@ -29,7 +29,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             await this.answersService.CreateAsync(id, answer, user.Id);
 
-            return this.RedirectToAction("ById", "Exam", new {id=examId });
+            return this.RedirectToAction("ById", "Exams", new {id=examId });
 
         }
     }

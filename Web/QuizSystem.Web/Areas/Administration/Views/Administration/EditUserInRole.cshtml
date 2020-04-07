@@ -1,0 +1,22 @@
+﻿@model QuizSystem.Web.Areas.ArreasModels.RoleModels.ListUserRoleViewModel
+@{
+    ViewData["Title"] = "Edit Role";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+
+    @foreach (var item in Model.UserRoleViewModels)
+    {
+        <div class="form-check">
+
+            <input type="checkbox" name="username" value="@item.UserName" /><label><span style="margin-left:3px">@item.UserName</span></label>
+        </div>
+        <div >
+
+            <input type="hidden" name="username" value="@item.UserId"/>
+        </div>
+      
+    }
+    <input type="submit" class="btn btn-primary" />
+</form>
