@@ -6,17 +6,27 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Data.Common.Repositories;
+    using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
     using QuizSystem.Web.ViewModels.Exams;
 
     public class ExamsController : Controller
     {
         private readonly IExamsService examsService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<ExamUser> repository;
 
-        public ExamsController(IExamsService examsService)
+        public ExamsController(
+            IExamsService examsService,
+            UserManager<ApplicationUser> userManager,
+            IDeletableEntityRepository<ExamUser> repository)
         {
             this.examsService = examsService;
+            this.userManager = userManager;
+            this.repository = repository;
         }
 
         [HttpGet]
@@ -31,16 +41,23 @@
         public async Task<IActionResult> CreateAsync(string name, string description)
         {
           var examId = await this.examsService.CreateAsync(name, description);
-          return this.RedirectToAction(nameof(this.ById), new { id = examId });
+          return this.RedirectToAction(nameof(this.ByIdAsync), new { id = examId });
         }
 
         [Authorize]
-        public IActionResult ById(int id)
+        public async Task<IActionResult> ByIdAsync(int id)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             var model = this.examsService.GetById<ExamViewModel>(id);
             if (model == null)
             {
                 return this.NotFound();
+            }
+
+            if (!exams.Contains(model.Id.ToString()))
+            {
+                return this.RedirectToAction("Index", "Home");
             }
 
             return this.View(model);

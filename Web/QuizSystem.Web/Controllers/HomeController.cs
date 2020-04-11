@@ -1,15 +1,17 @@
 ﻿namespace QuizSystem.Web.Controllers
 {
-    using System.Diagnostics;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Common;
+    using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
     using QuizSystem.Web.ViewModels;
     using QuizSystem.Web.ViewModels.Home;
-    using Microsoft.AspNetCore.Identity;
-    using QuizSystem.Data.Common.Repositories;
 
     public class HomeController : BaseController
     {
@@ -30,10 +32,18 @@
         public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
-            var model = new IndexViewModel()
-            { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => exams.Contains(t.Id.ToString())) };
-            return this.View(model);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole("Moderator"))
+            {
+                var model1 = new IndexViewModel() { Exams = this.examServise.GetAll<ExamIndexViewModel>() };
+                return this.View(model1);
+            }
+            else
+            {
+                var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+                var model = new IndexViewModel()
+                { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => exams.Contains(t.Id.ToString())) };
+                return this.View(model);
+            }
         }
 
         public IActionResult Privacy()

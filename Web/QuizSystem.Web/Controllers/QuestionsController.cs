@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
     using QuizSystem.Web.ViewModels.Questions;
@@ -16,11 +17,19 @@
     {
         private readonly IQuestionsService questionsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<ExamUser> repository;
+        private readonly IDeletableEntityRepository<Answer> answersRepossitory;
 
-        public QuestionsController(IQuestionsService questionsService, UserManager<ApplicationUser> userManager)
+        public QuestionsController(
+            IQuestionsService questionsService,
+            UserManager<ApplicationUser> userManager,
+            IDeletableEntityRepository<ExamUser> repository,
+            IDeletableEntityRepository<Answer> answersRepossitory)
         {
             this.questionsService = questionsService;
             this.userManager = userManager;
+            this.repository = repository;
+            this.answersRepossitory = answersRepossitory;
         }
 
         [Authorize]
@@ -42,16 +51,31 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var questionId = await this.questionsService.CreateAsync(model.Title, model.Description, user.Id);
 
-            return this.RedirectToAction("ById", new {id= questionId });
+            return this.RedirectToAction("ById", new { id= questionId });
         }
 
         [Authorize]
-        public IActionResult ById(int id)
+        public async Task<IActionResult> ByIdAsync(int id)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);
             if (model == null)
             {
                 return this.NotFound();
+            }
+
+            if (!exams.Contains(model.ExamId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            var answer = this.answersRepossitory.All().
+                        FirstOrDefault(n => n.UserId == user.Id && n.QuestionId == model.Id.ToString());
+
+            if (answer != null)
+            {
+                model.Answer = answer.Content;
             }
 
             return this.View(model);

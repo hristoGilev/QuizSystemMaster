@@ -1,25 +1,44 @@
 ﻿@model QuizSystem.Web.ViewModels.Exams.ExamViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using QuizSystem.Data.Models
+@using Microsoft.AspNetCore.Identity
 @{
     this.ViewData["Title"] = Model.Name;
 }
 
-<h1 class="display-3">@Model.Name</h1>
-<div class="alert alert-info">
-    @Model.Description
-</div>
-@foreach (var item in Model.Questions)
-{
-    //if (item.Answers.Any(x => x.User.UserName != User.Identity.Name))
-    {
-        <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
-    }
-}
-@{
-    <hr />
-    var parms = new Dictionary<string, string>
-{
+<h7 class="display-4">@Model.Name</h7>
+
+<div class="card">
+    <div class="card-header alert-info">
+        @Model.Description
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model.Questions)
+        {
+            {
+                <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+            }
+        }
+    </div>
+    <div class="card-footer">
+
+        @{
+
+            var parms = new Dictionary<string, string>
+            {
                 { "id", Model.Id.ToString() },
-              
+
             };
-}
-<h4 class="media-heading"><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
+        }
+
+        @if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
+        {
+            <h4 ><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
+        }
+    </div>
+</div>
+
+   
+
+

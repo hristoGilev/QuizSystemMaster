@@ -1,5 +1,9 @@
 ﻿@using QuizSystem.Common
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @model QuizSystem.Web.ViewModels.Home.IndexViewModel
+@using QuizSystem.Data.Models
 @{
     this.ViewData["Title"] = $"Welcome to {GlobalConstants.SystemName}";
 }
@@ -8,7 +12,7 @@
     <h1 class="display-3">@ViewData["Title"]</h1>
 </div>
 
-@if (User.Identity.Name != null)
+@if (this.SignInManager.IsSignedIn(this.User))
 {
     <div class="row">
         @foreach (var exam in Model.Exams)

@@ -1,22 +1,27 @@
-﻿@model QuizSystem.Web.Areas.ArreasModels.RoleModels.ListUserRoleViewModel
+﻿@model List<QuizSystem.Web.Areas.ArreasModels.RoleModels.UserRoleViewModel>
 @{
-    ViewData["Title"] = "Edit Role";
+    ViewData["Title"] = "Edit Role" ;
 }
-<h1>@ViewData["Title"]</h1>
 
 <form method="post">
+ <div class=" card">
+     <div class="card-header"><h3>Add or Remove user from this role @ViewData["ChooseRole"]</h3></div>
+     <div class="card-body">
+         
+         @foreach (var item in Model)
 
-    @foreach (var item in Model.UserRoleViewModels)
-    {
-        <div class="form-check">
+         {
 
-            <input type="checkbox" name="username" value="@item.UserName" /><label><span style="margin-left:3px">@item.UserName</span></label>
-        </div>
-        <div >
+         <div>
+             <input type="checkbox" name="username" value="@item.UserName" />
+             <label><span style="margin-left:3px">@item.UserName</span></label>@if (item.IsSelected) {<span>(@ViewData["ChooseRole"])</span> } else { <span>(User)</span>}
 
-            <input type="hidden" name="username" value="@item.UserId"/>
-        </div>
-      
-    }
-    <input type="submit" class="btn btn-primary" />
+         </div>
+         }
+
+     </div>
+ </div>
+ <div class="card-footer">
+     <input type="submit" class="btn btn-primary" />
+ </div>
 </form>

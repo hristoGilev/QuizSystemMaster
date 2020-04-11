@@ -1,7 +1,9 @@
 ﻿namespace QuizSystem.Web.Areas.Administration.Controllers
 {
-    using System.Threading.Tasks;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -11,7 +13,6 @@
     using QuizSystem.Services.Data;
     using QuizSystem.Web.Areas.ArreasModels.RoleModels;
     using QuizSystem.Web.Controllers;
-    using System.Linq;
 
     //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
@@ -44,10 +45,11 @@
             {
                 var role = new ApplicationRole() { Name = model.RoleName };
                 await this.roleManager.CreateAsync(role);
-                return this.RedirectToAction("Home", "Idex");
+                return this.View();
             }
 
-            return this.View(model);
+
+            return this.View();
         }
 
         [HttpGet]
@@ -59,27 +61,46 @@
         [HttpGet]
         public async Task<IActionResult> EditUserInRoleAsync(string id)
         {
-            return this.Json(id);
-            ////roleName = "Administrator";
-            //var model = new ListUserRoleViewModel() { UserRoleViewModels = new List<UserRoleViewModel>() };
-            //var users = this.userManager.Users.ToList();
-            //foreach (var item in users)
-            //{
-            //    var user = new UserRoleViewModel()
-            //    { UserName = item.UserName, UserId = item.Id };
-            //    if (await this.userManager.IsInRoleAsync(item, id))
-            //    {
-            //        user.IsSelected = true;
-            //    }
-            //    else
-            //    {
-            //        user.IsSelected = false;
-            //    }
+            var model = new List<UserRoleViewModel>();
+            var users = this.userManager.Users.ToList();
+            foreach (var item in users)
+            {
+                var user = new UserRoleViewModel()
+                { UserName = item.UserName, UserId = item.Id };
+                if (await this.userManager.IsInRoleAsync(item, id))
+                {
+                    user.IsSelected = true;
+                }
+                else
+                {
+                    user.IsSelected = false;
+                }
 
-            //model.UserRoleViewModels.Add(user);
-       
-    
-            //return this.View(model);
+                model.Add(user);
+            }
+
+            this.ViewData["ChooseRole"] = id;
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserInRoleAsync(string[] username, string id)
+        {
+            foreach (var item in username)
+            {
+                var user = await this.userManager.FindByNameAsync(item);
+                if (await this.userManager.IsInRoleAsync(user, id))
+                {
+                    await this.userManager.RemoveFromRoleAsync(user, id);
+                }
+                else
+                {
+                    await this.userManager.AddToRoleAsync(user, id);
+                }
+            }
+            //var model=this.userManager.Users.Select()
+            return this.Ok();
         }
     }
 }
