@@ -1,0 +1,19 @@
+﻿@model List<QuizSystem.Web.ViewModels.QuestionsMultiCelect.QuestionMultiSelectOutputModel>
+<div class="row">
+    @foreach (var question in Model)
+    {
+
+        <div class="col-md-4 media">
+
+            <div class="media-body">
+                <h5 class="mt-0">
+                    <a asp-action="ById" asp-controller="QuestionsMultiSelect" asp-route-id="@question.Id">
+                        @question.Title
+                    </a>
+                </h5>
+                @question.Description
+            </div>
+        </div>
+    }
+
+</div>

@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Common;
     using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
@@ -40,8 +41,13 @@
         [Authorize]
         public async Task<IActionResult> CreateAsync(string name, string description)
         {
-          var examId = await this.examsService.CreateAsync(name, description);
-          return this.RedirectToAction(nameof(this.ByIdAsync), new { id = examId });
+            if (!this.examsService.CheckForQuestions())
+            {
+                return this.Content("Няма свободни въпроси , създайте нови въпроси. ");
+            }
+
+            var examId = await this.examsService.CreateAsync(name, description);
+            return this.RedirectToAction(nameof(this.ByIdAsync), new { id = examId });
         }
 
         [Authorize]
@@ -55,12 +61,26 @@
                 return this.NotFound();
             }
 
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole("Moderator"))
+            {
+                return this.View(model);
+            }
+            else
+
             if (!exams.Contains(model.Id.ToString()))
             {
                 return this.RedirectToAction("Index", "Home");
             }
 
             return this.View(model);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DeleteExamAsync(string id)
+        {
+          await this.examsService.DeleteAsync(int.Parse(id));
+
+          return this.RedirectToAction("Index", "Home");
         }
     }
 }

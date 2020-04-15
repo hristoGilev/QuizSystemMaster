@@ -13,5 +13,9 @@
         T GetById<T>(int id);
 
         IEnumerable<T> GetAll<T>(int? count = null);
+
+        bool CheckForQuestions();
+
+        Task DeleteAsync(int id);
     }
 }

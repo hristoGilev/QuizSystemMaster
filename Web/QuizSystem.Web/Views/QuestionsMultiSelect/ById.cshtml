@@ -1,0 +1,66 @@
+﻿@model QuizSystem.Web.ViewModels.QuestionsMultiCelect.QuestionMultiSelectOutputModel
+
+@{
+    this.ViewData["Title"] = $"Question {Model.Title} ";
+}
+<h2>@this.ViewData["Title"]</h2>
+
+@{
+    <hr />
+    var parms = new Dictionary<string, string>
+{
+                { "id", Model.Id.ToString() },
+                {"ExamId",Model.ExamId }
+            };
+}
+
+<div>
+    <h4> @Model.Description</h4>
+    @if (true)
+    {
+
+    }
+</div>
+<hr />
+<form method="post" asp-controller="Answers" asp-action="Create" asp-all-route-data="parms">
+
+    <div>
+        <ol>
+            <li>
+                <input type="checkbox" name="answer" value="@Model.AnswerTypeA" />
+                <label><span style="margin-left:3px">@Model.AnswerTypeA</span></label>
+            </li>
+            <li>
+                <input type="checkbox" name="answer" value="@Model.AnswerTypeB" />
+                <label><span style="margin-left:3px">@Model.AnswerTypeB</span></label>
+            </li>
+            <li>
+                <input type="checkbox" name="answer" value="@Model.AnswerTypeC" />
+                <label><span style="margin-left:3px">@Model.AnswerTypeC</span></label>
+            </li>
+            @Model.Answer
+        </ol>
+
+    </div>
+    <hr />
+
+
+    <nav class="navbar navbar-expand-sm bg-light">
+
+        <ul class="navbar-nav">
+            <li class="nav-item m=3">
+                <input type="submit" class="btn btn-primary" name="Input" />
+            </li>
+            <li class="nav-item m-3">
+                <a asp-action="Edit" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id">Edit</a>
+            </li>
+            <li class="nav-item m-3">
+                <a asp-action="Delete" asp-controller="QuestionsMultiCelect" asp-route-id="@Model.Id">Delete</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+</form>

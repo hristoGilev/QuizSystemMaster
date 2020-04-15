@@ -1,4 +1,4 @@
-﻿namespace QuizSystem.Web.ViewModels.Questions
+﻿namespace QuizSystem.Web.ViewModels.QuestionsMultiCelect
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Mapping;
 
-    public class QuestionsViewOutputModel : IMapFrom<Question>
+    public class QuestionMultiSelectOutputModel : IMapFrom<QuestionMultiSelect>
     {
         public int Id { get; set; }
 
@@ -17,6 +17,12 @@
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public string AnswerTypeA { get; set; }
+
+        public string AnswerTypeB { get; set; }
+
+        public string AnswerTypeC { get; set; }
 
         public string Answer { get; set; }
 

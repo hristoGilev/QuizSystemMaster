@@ -20,9 +20,12 @@
                 <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
             }
         }
+        @foreach (var item in Model.QuestionMultiSelects)
+        {
+    <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+        }
     </div>
     <div class="card-footer">
-
         @{
 
             var parms = new Dictionary<string, string>
@@ -32,12 +35,28 @@
             };
         }
 
-        @if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
-        {
-            <h4 ><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
-        }
+        <nav>
+
+
+            @if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
+            {
+                <ul class="navbar-nav ">
+                    <li class="nav-item d-inline">
+                        <h4><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
+                    </li>
+
+                    <li class="nav-item d-inline ">
+                        <h4><a asp-controller="Exams" asp-action="DeleteExam" asp-all-route-data="parms">Delete exam</a></h4>
+
+                    </li>
+
+
+                </ul>
+
+            }
+        </nav>      
+
     </div>
-</div>
 
    
 

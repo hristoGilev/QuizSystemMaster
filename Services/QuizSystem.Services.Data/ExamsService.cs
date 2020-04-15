@@ -13,28 +13,47 @@
     public class ExamsService : IExamsService
     {
         private readonly IDeletableEntityRepository<Exam> repositoryExams;
-        private readonly IDeletableEntityRepository<Question> repositoryQuetion;
+        private readonly IDeletableEntityRepository<Question> repositoryQuestions;
+        private readonly IDeletableEntityRepository<QuestionMultiSelect> repositoryQuestionMultiSelect;
+        private readonly IDeletableEntityRepository<ExamUser> repositoryExamUser;
 
         public ExamsService(
             IDeletableEntityRepository<Exam> repositoryExams,
-            IDeletableEntityRepository<Question> repositoryQuetion)
+            IDeletableEntityRepository<Question> repositoryQuestion,
+            IDeletableEntityRepository<QuestionMultiSelect> repositoryQuestionMultiSelect,
+            IDeletableEntityRepository<ExamUser> repositoryExamUser)
         {
             this.repositoryExams = repositoryExams;
-            this.repositoryQuetion = repositoryQuetion;
+            this.repositoryQuestions = repositoryQuestion;
+            this.repositoryQuestionMultiSelect = repositoryQuestionMultiSelect;
+            this.repositoryExamUser = repositoryExamUser;
         }
 
         public async Task<int> CreateAsync(string name, string descrption)
         {
             var exam = new Exam() { Name = name, Description = descrption };
-            var t = this.repositoryQuetion.All().ToList().Count;
+            var t = this.repositoryQuestions.All().Where(t => t.ExamId == null).ToList().Count;
+            var t1 = this.repositoryQuestionMultiSelect.All().Where(t => t.ExamId == null).ToList().Count;
 
             await this.repositoryExams.AddAsync(exam);
             await this.repositoryExams.SaveChangesAsync();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                var q = this.repositoryQuetion.All().ToList().ElementAt(this.RandomNuber(t));
+                var q = this.repositoryQuestions.All().ToList()
+                            .Where(t => t.ExamId == null)
+                            .ElementAt(this.RandomNuber(t));
                 q.ExamId = exam.Id.ToString();
                 exam.Questions.Add(q);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                var q = this.repositoryQuestionMultiSelect.All()
+                              .Where(t => t.ExamId == null)
+                             .ToList()
+                             .ElementAt(this.RandomNuber(t1));
+                q.ExamId = exam.Id.ToString();
+                exam.QuestionMultiSelects.Add(q);
             }
 
             this.repositoryExams.Update(exam);
@@ -59,6 +78,34 @@
             }
 
             return query.To<T>().ToList();
+        }
+
+        public bool CheckForQuestions()
+        {
+            var q2 = this.repositoryQuestionMultiSelect.All()
+                .Where(t => t.ExamId == null).ToList().Count;
+            var q1 = this.repositoryQuestions.All()
+                .Where(t => t.ExamId == null).ToList().Count;
+            if (q1 < 2 || q2 < 3)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var exam = this.repositoryExams.All().Where(n => n.Id == id).FirstOrDefault();
+            var users = this.repositoryExamUser.All().Where(m => m.ExamId == id.ToString()).ToList();
+            foreach (var item in users)
+            {
+                this.repositoryExamUser.Delete(item);
+                await this.repositoryExamUser.SaveChangesAsync();
+            }
+
+            this.repositoryExams.Delete(exam);
+            await this.repositoryExams.SaveChangesAsync();
         }
 
         private int RandomNuber(int t)

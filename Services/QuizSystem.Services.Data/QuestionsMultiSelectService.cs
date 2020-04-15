@@ -10,18 +10,32 @@
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Mapping;
 
-    public class QuestionsService : IQuestionsService
+    public class QuestionsMultiSelectService : IQuestionsMultiSelectService
     {
-        private readonly IDeletableEntityRepository<Question> repository;
+        private readonly IDeletableEntityRepository<QuestionMultiSelect> repository;
 
-        public QuestionsService(IDeletableEntityRepository<Question> repository)
+        public QuestionsMultiSelectService(IDeletableEntityRepository<QuestionMultiSelect> repository)
         {
             this.repository = repository;
         }
 
-        public async Task<int> CreateAsync(string title, string content, string userId)
+        public async Task<int> CreateAsync(
+            string title,
+            string description,
+            string answersA,
+            string answerB,
+            string answerC,
+            string userId)
         {
-            var newQuestion = new Question() { Title = title, Description = content, UserId = userId };
+            var newQuestion = new QuestionMultiSelect()
+            {
+                Title = title,
+                Description = description,
+                AnswerTypeA = answersA,
+                AnswerTypeB = answerB,
+                AnswerTypeC = answerC,
+                UserId = userId,
+            };
 
             await this.repository.AddAsync(newQuestion);
             await this.repository.SaveChangesAsync();
@@ -35,19 +49,28 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task EditAsync(string title, string content, int id)
+        public async Task EditAsync(
+            string title,
+            string content,
+            string answersA,
+            string answerB,
+            string answerC,
+            int id)
         {
             var questuion = this.repository.All().Where(n => n.Id == id).FirstOrDefault();
             questuion.Title = title;
             questuion.Description = content;
+            questuion.AnswerTypeA = answersA;
+            questuion.AnswerTypeB = answerB;
+            questuion.AnswerTypeC = answerC;
             this.repository.Update(questuion);
             await this.repository.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
-            IQueryable<Question> query =
-               this.repository.All().OrderBy(x => x.Title);
+            IQueryable<QuestionMultiSelect> query =
+                 this.repository.All().OrderBy(x => x.Title);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);

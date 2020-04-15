@@ -20,6 +20,8 @@
 
         public virtual ICollection<Question> Questions { get; set; }
 
+        public virtual ICollection<QuestionMultiSelect> QuestionMultiSelects { get; set; }
+
         public string Content { get; set; }
 
         public int Id { get; set; }
