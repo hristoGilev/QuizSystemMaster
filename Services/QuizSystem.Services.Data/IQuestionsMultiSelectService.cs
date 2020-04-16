@@ -17,7 +17,7 @@
 
         T GetById<T>(int id);
 
-        Task DeliteAsync(int id);
+        Task DeleteAsync(int id);
 
         Task EditAsync(
             string title, string content,

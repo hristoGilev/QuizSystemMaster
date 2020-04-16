@@ -13,7 +13,7 @@
 
         Task EditAsync(string title, string content, int id);
 
-        Task DeliteAsync(int id);
+        Task DeleteAsync(int id);
 
         IEnumerable<T> GetAll<T>(int? count = null);
     }

@@ -108,9 +108,9 @@
             return this.RedirectToAction("ById", "Questions", new { id = model.Id });
         }
 
-        public async Task<IActionResult> DeliteAsync(string id, string examId)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            await this.questionsService.DeliteAsync(int.Parse(id));
+            await this.questionsService.DeleteAsync(int.Parse(id));
             return this.RedirectToAction("List", "Questions");
         }
 

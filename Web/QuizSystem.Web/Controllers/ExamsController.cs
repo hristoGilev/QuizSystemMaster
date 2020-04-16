@@ -47,7 +47,7 @@
             }
 
             var examId = await this.examsService.CreateAsync(name, description);
-            return this.RedirectToAction(nameof(this.ByIdAsync), new { id = examId });
+            return this.RedirectToAction("ById", new { id = examId });
         }
 
         [Authorize]

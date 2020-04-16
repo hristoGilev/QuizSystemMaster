@@ -40,7 +40,7 @@
             var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             if (!exams.Contains(examId))
             {
-                return this.RedirectToAction("Index",  "Home");
+                return this.Content("Не сте добавен към изпита!");
             }
 
             var exam = this.examsService.GetById<ExamViewModel>(int.Parse(examId));

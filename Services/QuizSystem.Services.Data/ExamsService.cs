@@ -32,26 +32,25 @@
         public async Task<int> CreateAsync(string name, string descrption)
         {
             var exam = new Exam() { Name = name, Description = descrption };
-            var t = this.repositoryQuestions.All().Where(t => t.ExamId == null).ToList().Count;
-            var t1 = this.repositoryQuestionMultiSelect.All().Where(t => t.ExamId == null).ToList().Count;
+            var question1 = this.repositoryQuestions.All().Where(t => t.ExamId == null).ToList();
+            var t1 = question1.Count;
+            var question2 = this.repositoryQuestionMultiSelect.All().Where(t => t.ExamId == null).ToList();
+            var t2 = question2.Count;
 
             await this.repositoryExams.AddAsync(exam);
             await this.repositoryExams.SaveChangesAsync();
             for (int i = 0; i < 2; i++)
             {
-                var q = this.repositoryQuestions.All().ToList()
-                            .Where(t => t.ExamId == null)
-                            .ElementAt(this.RandomNuber(t));
+                var q = question1.ElementAt(this.RandomNuber(t1));
+
                 q.ExamId = exam.Id.ToString();
                 exam.Questions.Add(q);
             }
 
             for (int i = 0; i < 3; i++)
             {
-                var q = this.repositoryQuestionMultiSelect.All()
-                              .Where(t => t.ExamId == null)
-                             .ToList()
-                             .ElementAt(this.RandomNuber(t1));
+                var q = question2.ElementAt(this.RandomNuber(t2));
+
                 q.ExamId = exam.Id.ToString();
                 exam.QuestionMultiSelects.Add(q);
             }
@@ -104,6 +103,23 @@
                 await this.repositoryExamUser.SaveChangesAsync();
             }
 
+            var questiuns = this.repositoryQuestions.All().Where(m => m.ExamId == id.ToString()).ToList();
+            foreach (var item in questiuns)
+            {
+                item.ExamId = null;
+                this.repositoryQuestions.Update(item);
+                await this.repositoryQuestions.SaveChangesAsync();
+            }
+
+            var questinsMulti = this.repositoryQuestionMultiSelect.All()
+                                     .Where(m => m.ExamId == id.ToString()).ToList();
+            foreach (var item in questinsMulti)
+            {
+                item.ExamId = null;
+                this.repositoryQuestionMultiSelect.Update(item);
+                await this.repositoryQuestionMultiSelect.SaveChangesAsync();
+            }
+
             this.repositoryExams.Delete(exam);
             await this.repositoryExams.SaveChangesAsync();
         }
@@ -111,7 +127,7 @@
         private int RandomNuber(int t)
         {
             Random randam = new Random();
-            return randam.Next(0, t);
+            return randam.Next(0, t - 1);
         }
     }
 }

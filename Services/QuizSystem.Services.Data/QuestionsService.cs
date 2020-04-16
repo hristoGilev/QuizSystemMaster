@@ -28,7 +28,7 @@
             return newQuestion.Id;
         }
 
-        public async Task DeliteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var questuion = this.repository.All().Where(n => n.Id == id).FirstOrDefault();
             this.repository.Delete(questuion);

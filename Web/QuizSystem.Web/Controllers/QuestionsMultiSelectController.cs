@@ -98,10 +98,10 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> DeliteAsync(string id, string examId)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            await this.questionsMultiSelectService.DeliteAsync(int.Parse(id));
-            return this.RedirectToAction("ById", "Exams", new { id = int.Parse(examId) });
+            await this.questionsMultiSelectService.DeleteAsync(int.Parse(id));
+            return this.RedirectToAction("LIst");
         }
 
         [HttpGet]

@@ -14,7 +14,7 @@
     using QuizSystem.Web.Areas.ArreasModels.RoleModels;
     using QuizSystem.Web.Controllers;
 
-    //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
     public class AdministrationController : Controller
     {
@@ -99,6 +99,7 @@
                     await this.userManager.AddToRoleAsync(user, id);
                 }
             }
+
             //var model=this.userManager.Users.Select()
             return this.Ok();
         }
