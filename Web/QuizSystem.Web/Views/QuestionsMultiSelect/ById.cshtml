@@ -27,15 +27,15 @@
     <div>
         <ol>
             <li>
-                <input type="checkbox" name="answer" value="@Model.AnswerTypeA" />
+                <input type="radio" name="answer" value="@Model.AnswerTypeA"  checked/>
                 <label><span style="margin-left:3px">@Model.AnswerTypeA</span></label>
             </li>
             <li>
-                <input type="checkbox" name="answer" value="@Model.AnswerTypeB" />
+                <input type="radio" name="answer" value="@Model.AnswerTypeB" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeB</span></label>
             </li>
             <li>
-                <input type="checkbox" name="answer" value="@Model.AnswerTypeC" />
+                <input type="radio" name="answer" value="@Model.AnswerTypeC" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeC</span></label>
             </li>
             @Model.Answer
@@ -52,7 +52,7 @@
                 <input type="submit" class="btn btn-primary" name="Input" />
             </li>
             <li class="nav-item m-3">
-                <a asp-action="Edit" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id">Edit</a>
+                <a asp-action="Edit" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id"><h4>Edit</h4></a>
             </li>
             <li class="nav-item m-3">
                 <a asp-action="Delete" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id">Delete</a>

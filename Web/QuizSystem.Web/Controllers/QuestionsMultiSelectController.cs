@@ -128,7 +128,7 @@
                 model.AnswerTypeC,
                 model.Id);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("ById", new { id = model.Id });
         }
     }
 }

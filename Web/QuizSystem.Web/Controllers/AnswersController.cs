@@ -11,6 +11,7 @@
     using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels;
     using QuizSystem.Web.ViewModels.Exams;
 
     public class AnswersController : Controller
@@ -40,7 +41,8 @@
             var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             if (!exams.Contains(examId))
             {
-                return this.Content("Не сте добавен към изпита!");
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "NE ste dobaven kum izpita!" };
+                return this.View("Error", model);
             }
 
             var exam = this.examsService.GetById<ExamViewModel>(int.Parse(examId));

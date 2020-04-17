@@ -12,6 +12,7 @@
     using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels;
     using QuizSystem.Web.ViewModels.Exams;
 
     public class ExamsController : Controller
@@ -43,7 +44,8 @@
         {
             if (!this.examsService.CheckForQuestions())
             {
-                return this.Content("Няма свободни въпроси , създайте нови въпроси. ");
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Няма свободни въпроси , създайте нови въпроси. " };
+                return this.View("Error", model);
             }
 
             var examId = await this.examsService.CreateAsync(name, description);
