@@ -35,6 +35,8 @@
 
         public DbSet<QuestionMultiSelect> QuestionMultiSelects { get; set; }
 
+        public DbSet<AnswerMultiSelect> AnswerMultiSelects { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

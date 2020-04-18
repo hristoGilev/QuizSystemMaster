@@ -19,13 +19,13 @@
         private readonly IQuestionsMultiSelectService questionsMultiSelectService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ExamUser> repository;
-        private readonly IDeletableEntityRepository<Answer> answersRepossitory;
+        private readonly IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory;
 
         public QuestionsMultiSelectController(
             IQuestionsMultiSelectService questionsMultiSelectService,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ExamUser> repository,
-            IDeletableEntityRepository<Answer> answersRepossitory)
+            IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory)
         {
             this.questionsMultiSelectService = questionsMultiSelectService;
             this.userManager = userManager;
@@ -71,7 +71,7 @@
             }
 
             var answer = this.answersRepossitory.All().
-                        FirstOrDefault(n => n.UserId == user.Id && n.QuestionId == model.Id.ToString());
+                        FirstOrDefault(n => n.UserId == user.Id && n.QuestionMultiSelectId == model.Id.ToString());
 
             if (answer != null)
             {

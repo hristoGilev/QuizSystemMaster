@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using QuizSystem.Data.Common.Repositories;
@@ -14,27 +13,26 @@
     using QuizSystem.Web.ViewModels;
     using QuizSystem.Web.ViewModels.Exams;
 
-    public class AnswersController : Controller
+    public class AnswerMultiSelectsController : Controller
     {
-        private readonly IAnswersSerrvice answersService;
+        private readonly IAnswerMultiSelectsService answerMultiSelectsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ExamUser> repository;
         private readonly IExamsService examsService;
 
-        public AnswersController(
-            IAnswersSerrvice answersService,
+        public AnswerMultiSelectsController(
+            IAnswerMultiSelectsService answerMultiSelectsService,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ExamUser> repository,
             IExamsService examsService)
         {
-            this.answersService = answersService;
+            this.answerMultiSelectsService = answerMultiSelectsService;
             this.userManager = userManager;
             this.repository = repository;
             this.examsService = examsService;
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateAsync(string id, string examId, string answer)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -46,14 +44,13 @@
             }
 
             var exam = this.examsService.GetById<ExamViewModel>(int.Parse(examId));
-            var questionFromExamId = exam.Questions.Select(t => t.Id).ToList();
-         
-            if (exam == null || !questionFromExamId.Contains(int.Parse(id)))
+            var questionFromExamIdM = exam.QuestionMultiSelects.Select(t => t.Id).ToList();
+            if (exam == null || !questionFromExamIdM.Contains(int.Parse(id)))
             {
                 return this.RedirectToAction("Index", "Home");
             }
 
-            await this.answersService.CreateAsync(id, answer, user.Id);
+            await this.answerMultiSelectsService.CreateAsync(id, answer, user.Id);
             return this.RedirectToAction("ById", "Exams", new { id = examId });
         }
     }

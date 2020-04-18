@@ -16,18 +16,19 @@
 
 <div>
     <h4> @Model.Description</h4>
-    @if (true)
+    @if (Model.Answer!=null)
     {
-
+<h5>Вашият предишен избор: @Model.Answer</h5>
     }
 </div>
 <hr />
-<form method="post" asp-controller="Answers" asp-action="Create" asp-all-route-data="parms">
+
+<form method="post" asp-controller="AnswerMultiSelects" asp-action="Create" asp-all-route-data="parms">
 
     <div>
         <ol>
             <li>
-                <input type="radio" name="answer" value="@Model.AnswerTypeA"  checked/>
+                <input type="radio" name="answer" value="@Model.AnswerTypeA"  />
                 <label><span style="margin-left:3px">@Model.AnswerTypeA</span></label>
             </li>
             <li>
@@ -37,8 +38,7 @@
             <li>
                 <input type="radio" name="answer" value="@Model.AnswerTypeC" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeC</span></label>
-            </li>
-            @Model.Answer
+            </li>        
         </ol>
 
     </div>
@@ -52,7 +52,7 @@
                 <input type="submit" class="btn btn-primary" name="Input" />
             </li>
             <li class="nav-item m-3">
-                <a asp-action="Edit" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id"><h4>Edit</h4></a>
+                <a asp-action="Edit" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id"><h5>Edit</h5></a>
             </li>
             <li class="nav-item m-3">
                 <a asp-action="Delete" asp-controller="QuestionsMultiSelect" asp-route-id="@Model.Id">Delete</a>

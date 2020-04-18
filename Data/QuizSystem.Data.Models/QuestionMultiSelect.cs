@@ -11,7 +11,7 @@
     {
         public QuestionMultiSelect()
         {
-            this.Answers = new HashSet<Answer>();
+            this.AnswersMultiSelect = new HashSet<AnswerMultiSelect>();
         }
 
         public string Title { get; set; }
@@ -29,7 +29,7 @@
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<Answer> Answers { get; set; }
+        public virtual ICollection<AnswerMultiSelect> AnswersMultiSelect { get; set; }
 
         public string ExamId { get; set; }
 

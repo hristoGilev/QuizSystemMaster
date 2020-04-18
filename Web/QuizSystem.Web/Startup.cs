@@ -66,6 +66,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IExamUsersService, ExamUsersService>();
             services.AddTransient<IQuestionsMultiSelectService, QuestionsMultiSelectService>();
+            services.AddTransient<IAnswerMultiSelectsService, AnswerMultiSelectsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
