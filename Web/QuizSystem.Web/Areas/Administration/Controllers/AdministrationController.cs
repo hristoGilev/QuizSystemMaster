@@ -86,7 +86,7 @@
 
         [HttpPost]
         public async Task<IActionResult> EditUserInRoleAsync(string[] username, string id)
-        {
+        {   //todo service??
             foreach (var item in username)
             {
                 var user = await this.userManager.FindByNameAsync(item);
@@ -100,8 +100,28 @@
                 }
             }
 
-            //var model=this.userManager.Users.Select()
-            return this.Ok();
+            var model = new List<UserRoleViewModel>();
+            var users = this.userManager.Users.ToList();
+            foreach (var item in users)
+            {
+                var user = new UserRoleViewModel()
+                { UserName = item.UserName, UserId = item.Id };
+                if (await this.userManager.IsInRoleAsync(item, id))
+                {
+                    user.IsSelected = true;
+                }
+                else
+                {
+                    user.IsSelected = false;
+                }
+
+                model.Add(user);
+            }
+
+            this.ViewData["ChooseRole"] = id;
+
+            return this.View(model);
         }
+
     }
 }

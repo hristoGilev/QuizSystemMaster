@@ -17,5 +17,7 @@
         bool CheckForQuestions();
 
         Task DeleteAsync(int id);
+
+        Task OpenorNotOpen(int id);
     }
 }

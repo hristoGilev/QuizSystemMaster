@@ -47,8 +47,8 @@
 
             var exam = this.examsService.GetById<ExamViewModel>(int.Parse(examId));
             var questionFromExamId = exam.Questions.Select(t => t.Id).ToList();
-         
-            if (exam == null || !questionFromExamId.Contains(int.Parse(id)))
+
+            if (exam == null || !questionFromExamId.Contains(int.Parse(id)) || !exam.IsOpen)
             {
                 return this.RedirectToAction("Index", "Home");
             }

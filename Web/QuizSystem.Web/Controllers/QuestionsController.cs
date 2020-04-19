@@ -20,17 +20,20 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ExamUser> repository;
         private readonly IDeletableEntityRepository<Answer> answersRepossitory;
+        private readonly IExamsService examsService;
 
         public QuestionsController(
             IQuestionsService questionsService,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ExamUser> repository,
-            IDeletableEntityRepository<Answer> answersRepossitory)
+            IDeletableEntityRepository<Answer> answersRepossitory,
+            IExamsService examsService)
         {
             this.questionsService = questionsService;
             this.userManager = userManager;
             this.repository = repository;
             this.answersRepossitory = answersRepossitory;
+            this.examsService = examsService;
         }
 
         [Authorize]
@@ -61,6 +64,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);
+            
             if (model == null)
             {
                 return this.NotFound();

@@ -41,7 +41,7 @@
             {
                 var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
                 var model = new IndexViewModel()
-                { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => exams.Contains(t.Id.ToString())) };
+                { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => (exams.Contains(t.Id.ToString()) && t.IsOpen == true)) };
                 return this.View(model);
             }
         }

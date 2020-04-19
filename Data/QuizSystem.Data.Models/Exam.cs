@@ -22,5 +22,7 @@
         public virtual ICollection<ExamUser> ExamUser { get; set; }
 
         public virtual ICollection<QuestionMultiSelect> QuestionMultiSelects { get; set; }
+
+        public bool IsOpen { get; set; }
     }
 }

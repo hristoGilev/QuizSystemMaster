@@ -6,8 +6,20 @@
 @{
     this.ViewData["Title"] = Model.Name;
 }
+@if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
+{
+    if (Model.IsOpen)
+    {
+        this.ViewData["Condition"] = "- Open";
+    }
+    else
+    {
+        this.ViewData["Condition"] = "- Closed";
+    }
+}
+else { this.ViewData["Condition"] = ""; }
 
-<h7 class="display-4">@Model.Name</h7>
+<h7 class="display-4">@Model.Name @this.ViewData["Condition"]</h7>
 
 <div class="card">
     <div class="card-header alert-info">
@@ -22,7 +34,7 @@
         }
         @foreach (var item in Model.QuestionMultiSelects)
         {
-    <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+            <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
         }
     </div>
     <div class="card-footer">
@@ -35,29 +47,32 @@
             };
         }
 
-        <nav>
+        <nav class="navbar navbar-expand-sm bg-light">
 
 
             @if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
             {
-                <ul class="navbar-nav ">
-                    <li class="nav-item d-inline">
-                        <h4><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
-                    </li>
+            <ul class="navbar-nav ">
+                <li class="nav-item m-3">
+                    <h4><a asp-controller="ExamUsers" asp-action="AddUsersToExam" asp-all-route-data="parms">Add user to exam</a></h4>
+                </li>
 
-                    <li class="nav-item d-inline ">
-                        <h4><a asp-controller="Exams" asp-action="DeleteExam" asp-all-route-data="parms">Delete exam</a></h4>
+                <li class="nav-item m-3 ">
+                    <h4><a asp-controller="Exams" asp-action="DeleteExam" asp-all-route-data="parms">Delete exam</a></h4>
 
-                    </li>
+                </li>
+                <li class="nav-item m-3 ">
+                    <h4><a asp-controller="Exams" asp-action="OpenOrCloseExam" asp-all-route-data="parms">Change status Exam</a></h4>
 
-
-                </ul>
+                </li>
+               
+            </ul>
 
             }
-        </nav>      
+        </nav>
 
     </div>
 
-   
+
 
 </div>

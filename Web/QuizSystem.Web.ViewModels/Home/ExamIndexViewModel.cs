@@ -16,5 +16,7 @@
         public string Description { get; set; }
 
         public IEnumerable<ExamUser> ExamUsers { get; set; }
+
+        public bool IsOpen { get; set; }
     }
 }

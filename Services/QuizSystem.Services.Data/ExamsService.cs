@@ -124,6 +124,22 @@
             await this.repositoryExams.SaveChangesAsync();
         }
 
+        public async Task OpenorNotOpen(int id)
+        {
+            var exam = this.repositoryExams.All().Where(n => n.Id == id).FirstOrDefault();
+            if (exam.IsOpen)
+            {
+                exam.IsOpen = false;
+            }
+            else
+            {
+                exam.IsOpen = true;
+            }
+
+            this.repositoryExams.Update(exam);
+            await this.repositoryExams.SaveChangesAsync();
+        }
+
         private int RandomNuber(int t)
         {
             Random randam = new Random();

@@ -69,7 +69,7 @@
             }
             else
 
-            if (!exams.Contains(model.Id.ToString()))
+            if (!exams.Contains(model.Id.ToString()) || !model.IsOpen)
             {
                 return this.RedirectToAction("Index", "Home");
             }
@@ -83,6 +83,13 @@
           await this.examsService.DeleteAsync(int.Parse(id));
 
           return this.RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> OpenOrCloseExamAsync(string id)
+        {
+            await this.examsService.OpenorNotOpen(int.Parse(id));
+            return this.RedirectToAction("ById", new { id = int.Parse(id) });
         }
     }
 }
