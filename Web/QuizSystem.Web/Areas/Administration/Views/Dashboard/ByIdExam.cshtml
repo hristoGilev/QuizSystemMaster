@@ -10,7 +10,7 @@ else
 {
     this.ViewData["Condition"] = "- Closed";
 }
-<h7 class="display-4">@Model.Name @this.ViewData["Condition"]</h7>
+<h4 class="display-4">@Model.Name @this.ViewData["Condition"]</h4>
 <div class="card">
     <div class="card-header">
         @Model.Description
@@ -19,10 +19,10 @@ else
       
       
        <h6>Допуснати погребители до изпита</h6>
-        
-            @foreach (var item in Model.ExamUsers)
+        <hr />
+            @foreach (var item in Model.Users)
             {
-                <p>@item.User.UserName</p>
+                <p>@item</p>
             }
 
 

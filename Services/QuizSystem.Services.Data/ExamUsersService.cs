@@ -28,7 +28,13 @@
             {
                 var user = this.repositoryUsers.All().FirstOrDefault(t => t.UserName == item);
                 var exam = this.repositoryExams.All().FirstOrDefault(t => t.Id == idExam);
-                ExamUser examUser = new ExamUser() { UserId = user.Id, ExamId = exam.Id.ToString() };
+                var examUser = this.repository1.All().FirstOrDefault(t => (t.UserId == user.Id && t.ExamId == idExam.ToString()));
+                if (examUser != null)
+                {
+                    continue;
+                }
+
+                examUser = new ExamUser() { UserId = user.Id, ExamId = exam.Id.ToString() };
                 await this.repository1.AddAsync(examUser);
                 await this.repository1.SaveChangesAsync();
                 exam.ExamUser.Add(examUser);

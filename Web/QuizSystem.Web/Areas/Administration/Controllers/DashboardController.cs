@@ -58,15 +58,19 @@
 
         public IActionResult GetAllExams()
         {
-            
-           var model = this.examsService.GetAll<ExamReportModel>().ToList();
-            return this.View(model);
+
+           var model = this.examsService.GetAll<ExamReportModel>();
+           return this.View(model);
         }
 
         public IActionResult ByIdExam(int id)
         {
             var model = this.examsService.GetById<ExamReportModel>(id);
+
+            model.Users =this.repository.All().Where(h => h.ExamId==id.ToString()).Select(b =>b.User.UserName);
+
             return this.View(model);
+
         }
 
         public IActionResult ByIdExamUser(int id, string userid)
