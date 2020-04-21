@@ -45,14 +45,15 @@
             return this.View(model);
         }
 
-        public IActionResult GetAllExamsForUser(Userraport? user = null)
+        [HttpPost]
+        public IActionResult GetAllExamsForUser(string user)
         {
             var model = new List<ExamReportModel>();
 
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+            var exams = this.repository.All().Where(t => t.UserId == user).Select(t => t.ExamId);
             model = this.examsService.GetAll<ExamReportModel>().Where(t => exams.Contains(t.Id.ToString())).ToList();
-            this.ViewData["userId"] = user.Id;
-
+            this.ViewData["userId"] = user;
+            this.ViewData["UserName"] = this.usermaneger.Users.Where(t => t.Id == user).First().UserName;
             return this.View(model);
         }
 
@@ -67,10 +68,9 @@
         {
             var model = this.examsService.GetById<ExamReportModel>(id);
 
-            model.Users =this.repository.All().Where(h => h.ExamId==id.ToString()).Select(b =>b.User.UserName);
+            model.Users = this.repository.All().Where(h => h.ExamId == id.ToString()).Select(b => b.User.UserName);
 
             return this.View(model);
-
         }
 
         public IActionResult ByIdExamUser(int id, string userid)

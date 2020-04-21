@@ -2,7 +2,7 @@
 @{
     this.ViewData["Title"] = "Choose user for report";
 }
-    <form asp-action="GetAllExamsForUser">
+    <form method="post" asp-action="GetAllExamsForUser" asp-controller="Dashboard" asp-area="Administration">
         <div class="card">
             <div class="card-header"><h3>@this.ViewData["Title"]</h3></div>
             <div class="card-body">
@@ -13,14 +13,14 @@
                 {
 
                     <div>
-                        <input type="checkbox" name="username" value="@item" />
+                        <input type="radio" name="user" value="@item.Id" />
                         <label><span style="margin-left:3px">@item.UserName</span></label>
                     </div>
                 }
 
             </div>
             <div class="card-footer">
-                <input type="submit" class="btn btn-primary" />
+                <input type="submit" class="btn btn-primary" name="input"/>
             </div> 
         </div>
     </form>
