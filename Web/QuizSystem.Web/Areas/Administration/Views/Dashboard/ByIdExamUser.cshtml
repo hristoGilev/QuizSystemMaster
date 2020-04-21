@@ -1,0 +1,30 @@
+﻿@model QuizSystem.Web.Areas.ArreasModels.ReportModels.ExamReportModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+@if (Model.IsOpen)
+{
+    this.ViewData["Condition"] = "- Open";
+}
+else
+{
+    this.ViewData["Condition"] = "- Closed";
+}
+<h7 class="display-4">@Model.Name @this.ViewData["Condition"]</h7><div class="card">
+    <div class="card-header">
+        @Model.Description
+    </div>
+    <div class="card-body">
+
+ 
+       
+
+      
+
+    </div>
+    <dv class="card-footer">
+
+
+    </dv>
+
+</div>

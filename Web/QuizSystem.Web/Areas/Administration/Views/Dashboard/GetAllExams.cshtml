@@ -1,0 +1,27 @@
+﻿@model List<QuizSystem.Web.Areas.ArreasModels.ReportModels.ExamReportModel>
+@{
+    this.ViewData["Title"] = "Choose exam for report";
+}
+    <div class="row">
+        @foreach (var exam in Model)
+        {
+            var parm = new Dictionary<string, string>
+            {
+                {"id",exam.Id.ToString() },
+                  
+
+            };
+            <div class="col-md-4 media">
+
+                <div class="media-body">
+                    <h5 class="mt-0">
+                        <a asp-area="Administration" asp-action="ByIdExam" asp-controller="Dasboard" asp-all-route-data="@parm">
+                            @exam.Name
+                        </a>
+                    </h5>
+                    @exam.Description
+                </div>
+            </div>
+        }
+
+    </div>
