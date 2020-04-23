@@ -11,7 +11,15 @@
                             @question.Title
                         </a>
                     </h5>
-                    @question.Description
+                    @if (question.Description.Length > 45)
+                    {
+                        @(question.Description.Substring(0, 45) + "....")
+                    }
+                    else
+                    {
+                      @question.Description
+                    }
+
                 </div>
             </div>
         }

@@ -50,7 +50,8 @@
 
             if (exam == null || !questionFromExamId.Contains(int.Parse(id)) || !exam.IsOpen)
             {
-                return this.RedirectToAction("Index", "Home");
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "connot be answered!!" };
+                return this.View("Error", model);
             }
 
             await this.answersService.CreateAsync(id, answer, user.Id);

@@ -45,9 +45,10 @@
 
             var exam = this.examsService.GetById<ExamViewModel>(int.Parse(examId));
             var questionFromExamIdM = exam.QuestionMultiSelects.Select(t => t.Id).ToList();
-            if (exam == null || !questionFromExamIdM.Contains(int.Parse(id)))
+            if (exam == null || !questionFromExamIdM.Contains(int.Parse(id)) || !exam.IsOpen)
             {
-                return this.RedirectToAction("Index", "Home");
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "connot be answered!" };
+                return this.View("Error", model);
             }
 
             await this.answerMultiSelectsService.CreateAsync(id, answer, user.Id);

@@ -64,7 +64,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);
-            
+
             if (model == null)
             {
                 return this.NotFound();

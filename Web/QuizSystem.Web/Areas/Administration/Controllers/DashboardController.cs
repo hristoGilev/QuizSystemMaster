@@ -45,7 +45,6 @@
             return this.View(model);
         }
 
-        [HttpPost]
         public IActionResult GetAllExamsForUser(string user)
         {
             var model = new List<ExamReportModel>();
@@ -59,7 +58,6 @@
 
         public IActionResult GetAllExams()
         {
-
            var model = this.examsService.GetAll<ExamReportModel>();
            return this.View(model);
         }
@@ -73,11 +71,12 @@
             return this.View(model);
         }
 
-        public IActionResult ByIdExamUser(int id, string userid)
+        public IActionResult ByIdExamUser(int id, string userId)
         {
+            this.ViewData["userId"] = userId;
+            this.ViewData["UserName"] = this.usermaneger.Users.Where(t => t.Id == userId).First().UserName;
             var model = this.examsService.GetById<ExamReportModel>(id);
             return this.View(model);
         }
-
     }
 }

@@ -1,0 +1,14 @@
+﻿@model QuizSystem.Web.ViewModels.ArreasModels.ReportModels.UserQuestionReportModel
+@{ 
+    this.ViewData["Title"] = $"Answer to {Model.UserName}";
+}
+    <div>
+        <h4> @Model.Title  @this.ViewData["Title"]</h4>
+    </div>
+<hr />
+<div>
+    <h4> @Model.Description</h4>
+</div>
+<hr /><div>
+    <h4> @Model.Answer</h4>
+</div>

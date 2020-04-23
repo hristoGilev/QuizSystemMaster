@@ -26,7 +26,15 @@
                             @exam.Name
                         </a>
                     </h5>
-                    @exam.Description
+                    @if (exam.Description.Length > 45)
+                    {
+                        @(exam.Description.Substring(0,45) + "....")
+                    }
+                    else
+                    {
+                        @exam.Description
+                    }
+
                 </div>
             </div>
         }

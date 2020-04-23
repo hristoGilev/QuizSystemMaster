@@ -85,7 +85,7 @@
                 .Where(t => t.ExamId == null).ToList().Count;
             var q1 = this.repositoryQuestions.All()
                 .Where(t => t.ExamId == null).ToList().Count;
-            if (q1 < 2 || q2 < 3)
+            if (q1 < 4 || q2 < 6)
             {
                 return false;
             }

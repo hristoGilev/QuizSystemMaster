@@ -27,6 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new QuestionsSeeder(),
+                              new QuestionsMultiSelectSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -19,5 +19,9 @@
         public IEnumerable<string> Users { get; set; }
 
         public bool IsOpen { get; set; }
+
+        public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual ICollection<QuestionMultiSelect> QuestionMultiSelects { get; set; }
     }
 }

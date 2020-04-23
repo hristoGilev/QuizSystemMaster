@@ -10,16 +10,35 @@ else
 {
     this.ViewData["Condition"] = "- Closed";
 }
-<h7 class="display-4">@Model.Name @this.ViewData["Condition"]</h7><div class="card">
-    <div class="card-header">
+<h5 class="display-6">@Model.Name @this.ViewData["Condition"] report for @this.ViewData["UserName"]</h5>
+<div class="card">
+    <div class="card-header alert-info">
         @Model.Description
     </div>
     <div class="card-body">
 
- 
-       
 
-      
+        @foreach (var item in Model.Questions)
+        {
+            var parem = new Dictionary<string, string>() {
+                {"id",item.Id.ToString()},
+                {"userId",this.ViewData["userId"].ToString() }
+            };
+
+            {
+                <h4 class="media-heading"><a asp-controller="AnswerUserQuestion" asp-action="ById" asp-all-route-data="parem">@item.Title</a></h4>
+            }
+        }
+        @foreach (var item in Model.QuestionMultiSelects)
+        {
+            var parem = new Dictionary<string, string>() {
+                {"id",item.Id.ToString()},
+                {"userId",this.ViewData["userId"].ToString() }
+            };
+            <h4 class="media-heading"><a asp-controller="AnswerUserQuestionMulti" asp-action="ById" asp-all-route-data="parem">@item.Title</a></h4>
+        }
+
+
 
     </div>
     <dv class="card-footer">
