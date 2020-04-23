@@ -1,11 +1,11 @@
-﻿namespace QuizSystem.Services.Data
-{
-    using QuizSystem.Data.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using QuizSystem.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace QuizSystem.Services.Data
+{
     public interface IExamsService
     {
         Task<int> CreateAsync(string name, string descrption);
@@ -19,5 +19,7 @@
         Task DeleteAsync(int id);
 
         Task OpenorNotOpen(int id);
+
+        bool CheckForQuestionsMulti();
     }
 }

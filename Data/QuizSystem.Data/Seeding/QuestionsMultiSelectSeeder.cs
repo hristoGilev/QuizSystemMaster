@@ -25,8 +25,10 @@ namespace QuizSystem.Data.Seeding
               new QuestionMultiSelect { Title = "Question74", Description = "Кой написва романа Под игото?", AnswerTypeA = "Иван Вазов", AnswerTypeB = "Иван Куликов", AnswerTypeC = "Иван Костов" },
               new QuestionMultiSelect { Title = "Question75", Description = "Кое от числата е четно", AnswerTypeA = "111111", AnswerTypeB = "123333", AnswerTypeC = "22222222" },
               new QuestionMultiSelect { Title = "Question76", Description = "Кое от числата е нечетно", AnswerTypeA ="12345678", AnswerTypeB = "1237777", AnswerTypeC = "1236868" },
-              new QuestionMultiSelect { Title = "Question77", Description = "Акула", AnswerTypeA ="Делфин", AnswerTypeB = "", AnswerTypeC = "Шаран" },
-              new QuestionMultiSelect { Title = "Question78", Description = "Коя мерна единица е за темлература", AnswerTypeA ="Градус Целзий", AnswerTypeB = "Градус/метър", AnswerTypeC = "Джаул" },
+              new QuestionMultiSelect { Title = "Question77", Description = "Кое от животните не е риба?", AnswerTypeA = "Делфин", AnswerTypeB = "Акула", AnswerTypeC = "Шаран" },
+              new QuestionMultiSelect { Title = "Question78", Description = "Коя мерна единица е за температура", AnswerTypeA ="Градус Целзий", AnswerTypeB = "Градус/метър", AnswerTypeC = "Джаул" },
+              new QuestionMultiSelect { Title = "Question79", Description = "Кой е основния принцип на хидродинамиката?", AnswerTypeA ="принципът на Бернули.", AnswerTypeB = "принципът на Питър.", AnswerTypeC = "Принцип на Дилбърт." },
+              new QuestionMultiSelect { Title = "Question80", Description = "Кой е Джеймс Уат?", AnswerTypeA ="Фронтмен на рок група.", AnswerTypeB = "Екшън герой.", AnswerTypeC = "Шотландски механик и изобретател." },
             };
 
             foreach (var item in list)

@@ -32,19 +32,26 @@
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task<IActionResult> CreateAsync(string name, string description)
         {
             if (!this.examsService.CheckForQuestions())
             {
-                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Няма свободни въпроси , създайте нови въпроси. " };
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Няма свободни въпроси със отворен отговор, създайте нови въпроси. " };
+                return this.View("Error", model);
+            }
+
+            if (!this.examsService.CheckForQuestionsMulti())
+            {
+
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Няма свободни въпроси с отговор с избор, създайте нови въпроси. " };
                 return this.View("Error", model);
             }
 
@@ -77,7 +84,7 @@
             return this.View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task<IActionResult> DeleteExamAsync(string id)
         {
           await this.examsService.DeleteAsync(int.Parse(id));
@@ -85,7 +92,7 @@
           return this.RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task<IActionResult> OpenOrCloseExamAsync(string id)
         {
             await this.examsService.OpenorNotOpen(int.Parse(id));

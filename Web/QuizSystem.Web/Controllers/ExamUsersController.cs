@@ -7,6 +7,7 @@
     using QuizSystem.Services.Data;
     using QuizSystem.Web.ViewModels.ExamUses;
 
+    [Authorize(Roles = "Administrator,Moderator")]
     public class ExamUsersController : Controller
     {
         private readonly IUsersService usersService;

@@ -12,6 +12,7 @@
     using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels.Exams;
     using QuizSystem.Web.ViewModels.Questions;
 
     public class QuestionsController : Controller
@@ -36,14 +37,14 @@
             this.examsService = examsService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpGet]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(QuestionInputModel model)
         {
@@ -83,6 +84,11 @@
                 return this.View(model);
             }
 
+            if (!this.examsService.GetById<ExamViewModel>(int.Parse(model.ExamId)).IsOpen)
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
             if (!exams.Contains(model.ExamId))
             {
                 return this.RedirectToAction("Index", "Home");
@@ -91,6 +97,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -98,6 +105,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpPost]
         public async Task<IActionResult> EditAsync(QoesttionEditModel model)
         {
@@ -112,12 +120,14 @@
             return this.RedirectToAction("ById", "Questions", new { id = model.Id });
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task<IActionResult> DeleteAsync(string id)
         {
             await this.questionsService.DeleteAsync(int.Parse(id));
             return this.RedirectToAction("List", "Questions");
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         public IActionResult List()
         {
             var model = this.questionsService.GetAll<QuestionsViewOutputModel>();

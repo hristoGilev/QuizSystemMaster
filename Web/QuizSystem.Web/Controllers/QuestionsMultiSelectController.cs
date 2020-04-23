@@ -12,6 +12,7 @@
     using QuizSystem.Data.Common.Repositories;
     using QuizSystem.Data.Models;
     using QuizSystem.Services.Data;
+    using QuizSystem.Web.ViewModels.Exams;
     using QuizSystem.Web.ViewModels.QuestionsMultiCelect;
 
     public class QuestionsMultiSelectController : Controller
@@ -20,27 +21,30 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ExamUser> repository;
         private readonly IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory;
+        private readonly IExamsService examsService;
 
         public QuestionsMultiSelectController(
             IQuestionsMultiSelectService questionsMultiSelectService,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ExamUser> repository,
-            IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory)
+            IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory,
+            IExamsService examsService)
         {
             this.questionsMultiSelectService = questionsMultiSelectService;
             this.userManager = userManager;
             this.repository = repository;
             this.answersRepossitory = answersRepossitory;
+            this.examsService = examsService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpGet]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(QuestionMultySelectInputModel model)
         {
@@ -60,6 +64,7 @@
             return this.RedirectToAction("ById", new { id = questionId });
         }
 
+        [Authorize]
         public async Task<IActionResult> ByIdAsync(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -83,6 +88,11 @@
                 return this.View(model);
             }
 
+            if (!this.examsService.GetById<ExamViewModel>(int.Parse(model.ExamId)).IsOpen)
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
             if (!exams.Contains(model.ExamId))
             {
                 return this.RedirectToAction("Index", "Home");
@@ -91,6 +101,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         public IActionResult List()
         {
             var model = this.questionsMultiSelectService.GetAll<QuestionMultiSelectOutputModel>();
@@ -98,12 +109,14 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task<IActionResult> DeleteAsync(string id)
         {
             await this.questionsMultiSelectService.DeleteAsync(int.Parse(id));
             return this.RedirectToAction("LIst");
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -111,6 +124,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpPost]
         public async Task<IActionResult> EditAsync(QuestionMultiSelectEditModel model)
         {

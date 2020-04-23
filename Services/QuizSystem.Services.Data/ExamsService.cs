@@ -81,11 +81,22 @@
 
         public bool CheckForQuestions()
         {
-            var q2 = this.repositoryQuestionMultiSelect.All()
-                .Where(t => t.ExamId == null).ToList().Count;
             var q1 = this.repositoryQuestions.All()
                 .Where(t => t.ExamId == null).ToList().Count;
-            if (q1 < 4 || q2 < 6)
+            if (q1 < 4)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool CheckForQuestionsMulti()
+        {
+            var q2 = this.repositoryQuestionMultiSelect.All()
+                .Where(t => t.ExamId == null).ToList().Count;
+
+            if (q2 < 6)
             {
                 return false;
             }

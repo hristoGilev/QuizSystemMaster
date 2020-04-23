@@ -14,6 +14,12 @@
 
 @if (this.SignInManager.IsSignedIn(this.User))
 {
+    @if (!Model.Exams.Any())
+    {
+        <div class="text-center">
+                   <h3 class="display-3">Няма активни изпити за вас.</h3>
+        </div>
+    }
     <div class="row">
         @foreach (var exam in Model.Exams)
         {
