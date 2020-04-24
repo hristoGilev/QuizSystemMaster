@@ -19,7 +19,7 @@ namespace QuizSystem.Data.Seeding
 
            List<Question> questions = new List<Question>()
 
-           { new Question { Title = "Question43", Description = "Дайте определение за права." },
+           { new Question { Title = "Question43", Description = "Напишете една аксиома за права линия в геометрията." },
             new Question { Title = "Question4", Description = "Намерете най-малкото общо кратно на две числа." },
             new Question { Title = "Question5", Description ="Дайте определение за точка." },
             new Question { Title = "Question59", Description = "Who is doctor Who" },

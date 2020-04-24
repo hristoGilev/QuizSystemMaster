@@ -18,6 +18,7 @@
 
         public string Description { get; set; }
 
+        [Required]
         public string Answer { get; set; }
 
         public string ExamId { get; set; }

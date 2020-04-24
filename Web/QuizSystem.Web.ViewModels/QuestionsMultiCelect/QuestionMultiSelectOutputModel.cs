@@ -18,12 +18,16 @@
 
         public string Description { get; set; }
 
+        [Required]
         public string AnswerTypeA { get; set; }
 
+        [Required]
         public string AnswerTypeB { get; set; }
 
+        [Required]
         public string AnswerTypeC { get; set; }
 
+        [Required]
         public string Answer { get; set; }
 
         public string ExamId { get; set; }

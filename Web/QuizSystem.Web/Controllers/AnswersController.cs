@@ -35,6 +35,7 @@
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAsync(string id, string examId, string answer)
         {
             var user = await this.userManager.GetUserAsync(this.User);

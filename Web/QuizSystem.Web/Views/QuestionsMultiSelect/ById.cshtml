@@ -24,21 +24,24 @@
 <hr />
 
 <form method="post" asp-controller="AnswerMultiSelects" asp-action="Create" asp-all-route-data="parms">
-
+   
     <div>
         <ol>
             <li>
-                <input type="radio" name="answer" value="@Model.AnswerTypeA"  />
+                <input type="radio" name="answer" value="@Model.AnswerTypeA" required="required" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeA</span></label>
+
             </li>
             <li>
-                <input type="radio" name="answer" value="@Model.AnswerTypeB" />
+                <input type="radio" name="answer" value="@Model.AnswerTypeB" required="required" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeB</span></label>
+
             </li>
             <li>
-                <input type="radio" name="answer" value="@Model.AnswerTypeC" />
+                <input type="radio" name="answer" value="@Model.AnswerTypeC"required="required" />
                 <label><span style="margin-left:3px">@Model.AnswerTypeC</span></label>
-            </li>        
+
+            </li>
         </ol>
 
     </div>
