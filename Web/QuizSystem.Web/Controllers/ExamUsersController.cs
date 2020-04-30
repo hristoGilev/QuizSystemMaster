@@ -4,10 +4,11 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using QuizSystem.Common;
     using QuizSystem.Services.Data;
     using QuizSystem.Web.ViewModels.ExamUses;
 
-    [Authorize(Roles = "Administrator,Moderator")]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
     public class ExamUsersController : Controller
     {
         private readonly IUsersService usersService;

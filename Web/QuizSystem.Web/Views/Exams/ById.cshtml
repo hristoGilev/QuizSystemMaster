@@ -3,6 +3,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @using QuizSystem.Data.Models
 @using Microsoft.AspNetCore.Identity
+@using QuizSystem.Common
 @{
     this.ViewData["Title"] = Model.Name;
 }
@@ -50,7 +51,7 @@ else { this.ViewData["Condition"] = ""; }
         <nav class="navbar navbar-expand-sm bg-light">
 
 
-            @if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
+            @if (this.User.IsInRole(GlobalConstants.ModeratorRoleName) || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
             <ul class="navbar-nav ">
                 <li class="nav-item m-3">

@@ -32,7 +32,7 @@
         public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole("Moderator"))
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
                 var model1 = new IndexViewModel() { Exams = this.examServise.GetAll<ExamIndexViewModel>() };
                 return this.View(model1);

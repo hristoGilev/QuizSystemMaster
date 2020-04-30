@@ -37,14 +37,14 @@
             this.examsService = examsService;
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpGet]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(QuestionMultySelectInputModel model)
         {
@@ -101,7 +101,7 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public IActionResult List()
         {
             var model = this.questionsMultiSelectService.GetAll<QuestionMultiSelectOutputModel>();
@@ -109,14 +109,14 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> DeleteAsync(string id)
         {
             await this.questionsMultiSelectService.DeleteAsync(int.Parse(id));
             return this.RedirectToAction("LIst");
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -124,7 +124,7 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpPost]
         public async Task<IActionResult> EditAsync(QuestionMultiSelectEditModel model)
         {

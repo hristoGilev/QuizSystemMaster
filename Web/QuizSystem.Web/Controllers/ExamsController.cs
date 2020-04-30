@@ -32,14 +32,14 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles =GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> CreateAsync(string name, string description)
         {
             if (!this.examsService.CheckForQuestions())
@@ -50,7 +50,6 @@
 
             if (!this.examsService.CheckForQuestionsMulti())
             {
-
                 ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Няма свободни въпроси с отговор с избор, създайте нови въпроси. " };
                 return this.View("Error", model);
             }
@@ -70,7 +69,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole("Moderator"))
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
                 return this.View(model);
             }
@@ -84,7 +83,7 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> DeleteExamAsync(string id)
         {
           await this.examsService.DeleteAsync(int.Parse(id));
@@ -92,7 +91,7 @@
           return this.RedirectToAction("Index", "Home");
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> OpenOrCloseExamAsync(string id)
         {
             await this.examsService.OpenorNotOpen(int.Parse(id));
