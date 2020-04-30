@@ -83,7 +83,7 @@
                 model.Answer = answer.Content;
             }
 
-            if (this.User.IsInRole("Moderator") || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            if (this.User.IsInRole(GlobalConstants.ModeratorRoleName) || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 return this.View(model);
             }

@@ -45,5 +45,10 @@
                 await this.repositoryUsers.SaveChangesAsync();
             }
         }
+
+        public IQueryable<string> Exams(string userId)
+        {
+            return this.repository1.All().Where(t => t.UserId == userId).Select(t => t.ExamId);
+        }
     }
 }

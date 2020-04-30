@@ -39,5 +39,13 @@
                 return result.Id;
             }
         }
+
+        public Answer Result(string userId, int modelId)
+        {
+            var result = this.repositoryAnswer.All().
+                      FirstOrDefault(n => n.UserId == userId && n.QuestionId == modelId.ToString());
+
+            return result;
+        }
     }
 }
