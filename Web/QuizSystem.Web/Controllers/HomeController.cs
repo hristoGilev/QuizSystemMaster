@@ -13,20 +13,20 @@
     using QuizSystem.Web.ViewModels;
     using QuizSystem.Web.ViewModels.Home;
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly IExamsService examServise;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<ExamUser> repository;
+        private readonly IExamUsersService examUsersService;
 
         public HomeController(
             IExamsService examServise,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<ExamUser> repository)
+            IExamUsersService examUsersService)
         {
             this.examServise = examServise;
             this.userManager = userManager;
-            this.repository = repository;
+            this.examUsersService = examUsersService;
         }
 
         public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
@@ -39,10 +39,15 @@
             }
             else
             {
-                var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
-                var model = new IndexViewModel()
-                { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => (exams.Contains(t.Id.ToString()) && t.IsOpen == true)) };
-                return this.View(model);
+                if (user != null)
+                {
+                    var exams1 = this.examUsersService.Exams(user.Id);
+                    var model = new IndexViewModel()
+                    { Exams = this.examServise.GetAll<ExamIndexViewModel>().Where(t => (exams1.Contains(t.Id.ToString()) && t.IsOpen == true)) };
+                    return this.View(model);
+                }
+
+                return this.View();
             }
         }
 

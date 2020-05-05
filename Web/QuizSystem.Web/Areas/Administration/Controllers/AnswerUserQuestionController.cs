@@ -13,7 +13,7 @@
     using QuizSystem.Web.ViewModels.ArreasModels.ReportModels;
 
     [Area("Administration")]
-    [Authorize(Roles = "Administrator,Moderator")]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
     public class AnswerUserQuestionController : Controller
     {
         private readonly IDeletableEntityRepository<Answer> repositoryAnswers;

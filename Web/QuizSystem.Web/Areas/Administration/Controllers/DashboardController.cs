@@ -12,7 +12,7 @@
     using QuizSystem.Web.Areas.ArreasModels.ReportModels;
 
     [Area("Administration")]
-    [Authorize(Roles = "Administrator,Moderator")]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
     public class DashboardController : Controller
     {
         private readonly IUsersService usersService;

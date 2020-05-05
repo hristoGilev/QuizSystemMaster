@@ -37,5 +37,11 @@
                 return result.Id;
             }
         }
+
+        public AnswerMultiSelect Result(string userId, int modelId)
+        {
+            return this.repository.All().
+                        FirstOrDefault(n => n.UserId == userId && n.QuestionMultiSelectId == modelId.ToString());
+        }
     }
 }

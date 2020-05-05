@@ -4,10 +4,13 @@
 @using QuizSystem.Data.Models
 @using Microsoft.AspNetCore.Identity
 @using QuizSystem.Common
+@using QuizSystem.Services.Data
+@inject IAnswerMultiSelectsService service
+@inject IAnswersSerrvice serviceTwo
 @{
     this.ViewData["Title"] = Model.Name;
 }
-@if (this.User.IsInRole("Moderator") || this.User.IsInRole("Administrator"))
+@if (this.User.IsInRole(GlobalConstants.ModeratorRoleName) || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     if (Model.IsOpen)
     {
@@ -27,16 +30,42 @@ else { this.ViewData["Condition"] = ""; }
         @Model.Description
     </div>
     <div class="card-body">
-        @foreach (var item in Model.Questions)
-        {
+        <ol>
+            @foreach (var item in Model.Questions)
             {
-                <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
+            <li>
+                @if (serviceTwo.Result(this.ViewData["userId"].ToString(), item.Id) == null)
+                {
+                    <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id" class="text-success">@item.Title</a></h4>
+                }
+                else
+                {
+                    <h4 class="media-heading"><a asp-controller="Questions" asp-action="ById" asp-route-id="@item.Id" class="text-primary">@item.Title</a></h4>
+                }
+
+            </li>
+
             }
-        }
-        @foreach (var item in Model.QuestionMultiSelects)
-        {
-            <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id">@item.Title</a></h4>
-        }
+
+            @foreach (var item in Model.QuestionMultiSelects)
+                
+            {
+        <li>
+            @if (service.Result(this.ViewData["userId"].ToString(), item.Id) == null)
+            {
+                <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id" class="text-success">@item.Title</a></h4>
+            }
+            else
+            {
+                <h4 class="media-heading"><a asp-controller="QuestionsMultiSelect" asp-action="ById" asp-route-id="@item.Id" class="text-primary">@item.Title</a></h4>
+            }
+
+
+        </li>             
+            }
+
+        </ol>
+
     </div>
     <div class="card-footer">
         @{

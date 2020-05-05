@@ -19,21 +19,21 @@
     {
         private readonly IQuestionsMultiSelectService questionsMultiSelectService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<ExamUser> repository;
-        private readonly IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory;
+        private readonly IExamUsersService examUsersService;
+        private readonly IAnswerMultiSelectsService answerMultiSelectsService;
         private readonly IExamsService examsService;
 
         public QuestionsMultiSelectController(
             IQuestionsMultiSelectService questionsMultiSelectService,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<ExamUser> repository,
-            IDeletableEntityRepository<AnswerMultiSelect> answersRepossitory,
+            IExamUsersService examUsersService,
+            IAnswerMultiSelectsService answerMultiSelectsService,
             IExamsService examsService)
         {
             this.questionsMultiSelectService = questionsMultiSelectService;
             this.userManager = userManager;
-            this.repository = repository;
-            this.answersRepossitory = answersRepossitory;
+            this.examUsersService = examUsersService;
+            this.answerMultiSelectsService = answerMultiSelectsService;
             this.examsService = examsService;
         }
 
@@ -68,15 +68,14 @@
         public async Task<IActionResult> ByIdAsync(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+            var exams = this.examUsersService.Exams(user.Id);
             var model = this.questionsMultiSelectService.GetById<QuestionMultiSelectOutputModel>(id);
             if (model == null)
             {
                 return this.NotFound();
             }
 
-            var answer = this.answersRepossitory.All().
-                        FirstOrDefault(n => n.UserId == user.Id && n.QuestionMultiSelectId == model.Id.ToString());
+            var answer = this.answerMultiSelectsService.Result(user.Id, model.Id);
 
             if (answer != null)
             {

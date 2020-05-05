@@ -18,18 +18,18 @@
     {
         private readonly IAnswersSerrvice answersService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<ExamUser> repository;
+        private readonly IExamUsersService examUsersService;
         private readonly IExamsService examsService;
 
         public AnswersController(
             IAnswersSerrvice answersService,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<ExamUser> repository,
+            IExamUsersService examUsersService,
             IExamsService examsService)
         {
             this.answersService = answersService;
             this.userManager = userManager;
-            this.repository = repository;
+            this.examUsersService = examUsersService;
             this.examsService = examsService;
         }
 
@@ -39,7 +39,7 @@
         public async Task<IActionResult> CreateAsync(string id, string examId, string answer)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+            var exams = this.examUsersService.Exams(user.Id);
             if (!exams.Contains(examId))
             {
                 ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "NE ste dobaven kum izpita!" };
@@ -51,7 +51,7 @@
 
             if (exam == null || !questionFromExamId.Contains(int.Parse(id)) || !exam.IsOpen)
             {
-                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "connot be answered!!" };
+                ErrorViewModelTekst model = new ErrorViewModelTekst() { Tekst = "Connot be answered!!" };
                 return this.View("Error", model);
             }
 

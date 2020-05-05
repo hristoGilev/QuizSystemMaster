@@ -19,16 +19,16 @@
     {
         private readonly IExamsService examsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<ExamUser> repository;
+        private readonly IExamUsersService examUsersService;
 
         public ExamsController(
             IExamsService examsService,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<ExamUser> repository)
+            IExamUsersService examUsersService)
         {
             this.examsService = examsService;
             this.userManager = userManager;
-            this.repository = repository;
+            this.examUsersService = examUsersService;
         }
 
         [HttpGet]
@@ -62,7 +62,8 @@
         public async Task<IActionResult> ByIdAsync(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+            this.ViewData["userId"] = user.Id;
+            var exams = this.examUsersService.Exams(user.Id);
             var model = this.examsService.GetById<ExamViewModel>(id);
             if (model == null)
             {

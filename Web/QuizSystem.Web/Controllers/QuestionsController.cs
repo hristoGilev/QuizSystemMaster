@@ -19,32 +19,32 @@
     {
         private readonly IQuestionsService questionsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IDeletableEntityRepository<ExamUser> repository;
-        private readonly IDeletableEntityRepository<Answer> answersRepossitory;
+        private readonly IExamUsersService examUsersService;
+        private readonly IAnswersSerrvice answersSerrvice;
         private readonly IExamsService examsService;
 
         public QuestionsController(
             IQuestionsService questionsService,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<ExamUser> repository,
-            IDeletableEntityRepository<Answer> answersRepossitory,
+            IExamUsersService examUsersService,
+            IAnswersSerrvice answersSerrvice,
             IExamsService examsService)
         {
             this.questionsService = questionsService;
             this.userManager = userManager;
-            this.repository = repository;
-            this.answersRepossitory = answersRepossitory;
+            this.examUsersService = examUsersService;
+            this.answersSerrvice = answersSerrvice;
             this.examsService = examsService;
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpGet]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(QuestionInputModel model)
         {
@@ -63,7 +63,7 @@
         public async Task<IActionResult> ByIdAsync(int id)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var exams = this.repository.All().Where(t => t.UserId == user.Id).Select(t => t.ExamId);
+            var exams = this.examUsersService.Exams(user.Id);
             var model = this.questionsService.GetById<QuestionsViewOutputModel>(id);
 
             if (model == null)
@@ -71,15 +71,13 @@
                 return this.NotFound();
             }
 
-            var answer = this.answersRepossitory.All().
-                      FirstOrDefault(n => n.UserId == user.Id && n.QuestionId == model.Id.ToString());
-
+            var answer = this.answersSerrvice.Result(user.Id, model.Id);
             if (answer != null)
             {
                 model.Answer = answer.Content;
             }
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole("Moderator"))
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
                 return this.View(model);
             }
@@ -97,7 +95,7 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -105,7 +103,7 @@
             return this.View(model);
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         [HttpPost]
         public async Task<IActionResult> EditAsync(QoesttionEditModel model)
         {
@@ -120,14 +118,14 @@
             return this.RedirectToAction("ById", "Questions", new { id = model.Id });
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> DeleteAsync(string id)
         {
             await this.questionsService.DeleteAsync(int.Parse(id));
             return this.RedirectToAction("List", "Questions");
         }
 
-        [Authorize(Roles = "Administrator,Moderator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public IActionResult List()
         {
             var model = this.questionsService.GetAll<QuestionsViewOutputModel>();
