@@ -1,12 +1,14 @@
-﻿@{
+﻿@model List<string>
+@{
     ViewData["Title"] = "Choose a Role";
 }
 <h1>@ViewData["Title"]</h1>
+
 <div>
-    <h4 class="media-heading"><a asp-controller="Administration" asp-action="EditUserInRole" asp-route-id="Administrator">Administrator</a></h4>
-    <hr />
-</div>
-<div>
-    <h4 class="media-heading"><a asp-controller="Administration" asp-action="EditUserInRole" asp-route-id="Moderator">Moderator</a></h4>
-    <hr />
+    @foreach (var item in Model)
+    {
+        <h4 class="media-heading"><a asp-controller="Administration" asp-action="EditUserInRole" asp-route-id="@item">@item</a></h4>
+        <hr />
+
+    }
 </div>

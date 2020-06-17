@@ -13,6 +13,7 @@
 
     [Area("Administration")]
     [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
+    //[Authorize(Roles = a ))]
     public class DashboardController : Controller
     {
         private readonly IUsersService usersService;

@@ -45,9 +45,8 @@
             {
                 var role = new ApplicationRole() { Name = model.RoleName };
                 await this.roleManager.CreateAsync(role);
-                return this.View();
+                return this.RedirectToAction("ChooseaRole");
             }
-
 
             return this.View();
         }
@@ -55,29 +54,14 @@
         [HttpGet]
         public IActionResult ChooseaRole()
         {
-            return this.View();
+            var model = this.roleManager.Roles.Select(t => t.Name).ToList();
+            return this.View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditUserInRoleAsync(string id)
         {
-            var model = new List<UserRoleViewModel>();
-            var users = this.userManager.Users.ToList();
-            foreach (var item in users)
-            {
-                var user = new UserRoleViewModel()
-                { UserName = item.UserName, UserId = item.Id };
-                if (await this.userManager.IsInRoleAsync(item, id))
-                {
-                    user.IsSelected = true;
-                }
-                else
-                {
-                    user.IsSelected = false;
-                }
-
-                model.Add(user);
-            }
+            var model = await this.usersService.ChecRoleAsync(id);
 
             this.ViewData["ChooseRole"] = id;
 
@@ -86,7 +70,7 @@
 
         [HttpPost]
         public async Task<IActionResult> EditUserInRoleAsync(string[] username, string id)
-        {   //todo service??
+        {
             foreach (var item in username)
             {
                 var user = await this.userManager.FindByNameAsync(item);
@@ -100,28 +84,11 @@
                 }
             }
 
-            var model = new List<UserRoleViewModel>();
-            var users = this.userManager.Users.ToList();
-            foreach (var item in users)
-            {
-                var user = new UserRoleViewModel()
-                { UserName = item.UserName, UserId = item.Id };
-                if (await this.userManager.IsInRoleAsync(item, id))
-                {
-                    user.IsSelected = true;
-                }
-                else
-                {
-                    user.IsSelected = false;
-                }
-
-                model.Add(user);
-            }
+            var model = await this.usersService.ChecRoleAsync(id);
 
             this.ViewData["ChooseRole"] = id;
 
             return this.View(model);
         }
-
     }
 }
